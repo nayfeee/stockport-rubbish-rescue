@@ -5,7 +5,8 @@ import Image from "next/image";
 
 const phoneDisplay = "07496 481951";
 const phoneHref = "tel:07496481951";
-const whatsappHref = "https://wa.me/447916349803";
+const whatsappHref = "https://wa.me/447572230890";
+const facebookHref = "https://www.facebook.com/p/Stockport-Rubbish-Rescue";
 
 const navItems = ["Home", "Services", "Before & After", "Areas", "Contact"];
 
@@ -43,6 +44,54 @@ const galleryImages = [
   "/images/job6.png",
 ];
 
+const reviews = [
+  {
+    quote: "Really professional, got me booked in fast and very reasonable price thank you!",
+    name: "Nikita",
+    date: "28th May 2026",
+  },
+  {
+    quote: "Cannot recommend Stockport Rubbish Rescue enough. It was so easy and straightforward to arrange.",
+    name: "Aimee",
+    date: "27th May 2026",
+  },
+  {
+    quote: "Top service, thanks guys. Highly recommend.",
+    name: "Lee",
+    date: "20th May 2026",
+  },
+  {
+    quote: "Good communication, on time and prompt.",
+    name: "Paul",
+    date: "7th May 2026",
+  },
+  {
+    quote: "Absolutely brilliant service today by Stockport Rubbish Rescue. The team were great. It was super quick and efficient. Special shout out to Chris and Simon.",
+    name: "Claire",
+    date: "19th April 2026",
+  },
+  {
+    quote: "Needed a sofa collecting, messaged these guys and within 2 hours the sofa was collected. Can’t recommend enough cheers!",
+    name: "Rich",
+    date: "23rd March 2026",
+  },
+  {
+    quote: "I used this company last week and can highly recommend. I enquired on a Sunday evening, was given a price and they came the following day. Very reliable service and respectful to our property. Great lads.",
+    name: "Debs",
+    date: "22nd March 2026",
+  },
+  {
+    quote: "Came same day I enquired, rubbish all removed, friendly team, would definitely recommend!",
+    name: "Sasha",
+    date: "22nd March 2026",
+  },
+  {
+    quote: "Within an hour of me messaging, the rubbish was gone! Really fast service and friendly polite guys. Thanks again.",
+    name: "Melissa",
+    date: "18th March 2026",
+  },
+];
+
 function PhoneIcon() {
   return (
     <svg
@@ -64,6 +113,14 @@ function WhatsAppIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
       <path d="M20.52 3.48A11.8 11.8 0 0 0 12.1 0C5.53 0 .2 5.33.2 11.9c0 2.1.55 4.16 1.6 5.97L0 24l6.28-1.65a11.86 11.86 0 0 0 5.82 1.48h.01c6.56 0 11.9-5.33 11.9-11.9 0-3.18-1.24-6.17-3.48-8.45ZM12.1 21.82a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.72.98.99-3.63-.24-.37a9.86 9.86 0 0 1-1.51-5.31c0-5.45 4.43-9.89 9.88-9.89 2.64 0 5.12 1.03 6.98 2.9a9.82 9.82 0 0 1 2.9 6.99c0 5.45-4.43 9.89-9.89 9.89Zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.5 0 1.47 1.08 2.9 1.23 3.1.15.2 2.12 3.24 5.14 4.54.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.03 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.96h-1.51c-1.49 0-1.96.93-1.96 1.89v2.27h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07Z" />
     </svg>
   );
 }
@@ -117,6 +174,8 @@ export default function Home() {
   const [galleryStart, setGalleryStart] = useState(0);
   const [galleryVisible, setGalleryVisible] = useState(true);
   const [galleryPaused, setGalleryPaused] = useState(false);
+  const [reviewStart, setReviewStart] = useState(0);
+  const [reviewsVisible, setReviewsVisible] = useState(true);
   const [introVisible, setIntroVisible] = useState(true);
   const [introLeaving, setIntroLeaving] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -127,7 +186,6 @@ export default function Home() {
   const [quotePhone, setQuotePhone] = useState("");
   const [quoteJobType, setQuoteJobType] = useState("");
   const [quoteDetails, setQuoteDetails] = useState("");
-
   const quoteMessage = encodeURIComponent(
     `Hi, I'd like a rubbish removal quote.\n\nName: ${quoteName || "Not provided"}\nPhone: ${quotePhone || "Not provided"}\nJob type: ${quoteJobType || "Not selected"}\nDetails: ${quoteDetails || "Not provided"}`
   );
@@ -174,9 +232,27 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [galleryPaused]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setReviewsVisible(false);
+
+      setTimeout(() => {
+        setReviewStart((current) => (current + 1) % reviews.length);
+        setReviewsVisible(true);
+      }, 350);
+    }, 4200);
+
+    return () => clearInterval(timer);
+  }, []);
+
   const visibleGallery = Array.from(
     { length: 6 },
     (_, i) => galleryImages[(galleryStart + i) % galleryImages.length]
+  );
+
+  const visibleReviews = Array.from(
+    { length: 3 },
+    (_, i) => reviews[(reviewStart + i) % reviews.length]
   );
 
   return (
@@ -528,6 +604,68 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="bg-[#f4f6f1] px-4 py-16 md:px-5 md:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-5 md:grid-cols-[0.85fr_1fr] md:items-end">
+            <div>
+              <p className="font-black uppercase tracking-[0.25em] text-[#4c9f10]">
+                Customer Reviews
+              </p>
+              <h2 className="mt-3 max-w-4xl text-[2.2rem] font-black uppercase leading-[0.9] tracking-tight md:text-5xl">
+                Trusted by your neighbours across Stockport.
+              </h2>
+            </div>
+            <div className="max-w-xl md:ml-auto">
+              <div className="text-2xl font-black tracking-[0.08em] text-[#7ed321]">
+                ★★★★★
+              </div>
+              <p className="mt-3 text-sm leading-7 text-black/65 md:text-base">
+                Real feedback from local customers who booked Stockport Rubbish Rescue for fast, reliable clearances.
+              </p>
+            </div>
+          </div>
+
+          <div
+            className={`grid gap-4 transition-opacity duration-500 ease-out md:grid-cols-3 ${
+              reviewsVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {visibleReviews.map((review) => (
+              <div
+                key={`${review.name}-${review.date}`}
+                className="flex min-h-[260px] flex-col justify-between rounded-[1.5rem] bg-white p-6 shadow-sm ring-1 ring-black/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div>
+                  <div className="mb-5 text-lg font-black tracking-[0.1em] text-[#7ed321]">
+                    ★★★★★
+                  </div>
+                  <p className="text-base font-bold leading-7 text-black/75">
+                    “{review.quote}”
+                  </p>
+                </div>
+
+                <div className="mt-8 border-t border-black/10 pt-5">
+                  <p className="font-black text-black">{review.name}</p>
+                  <p className="mt-1 text-sm font-bold text-black/45">{review.date}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-[1.5rem] bg-[#071007] p-5 text-white md:flex-row md:items-center">
+            <p className="max-w-2xl text-sm font-bold leading-7 text-white/70">
+              Want the same quick service? Send a few photos on WhatsApp and we’ll come back with a fast quote.
+            </p>
+            <a
+              href={whatsappHref}
+              className="rounded-full bg-[#7ed321] px-6 py-3.5 text-sm font-black uppercase tracking-[0.08em] text-black transition hover:bg-white"
+            >
+              WhatsApp Us
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white px-4 py-16 md:px-5 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1fr]">
           <div>
@@ -705,6 +843,15 @@ export default function Home() {
               <a href={whatsappHref} className="flex items-center gap-3 hover:text-[#7ed321]">
                 <WhatsAppIcon className="h-5 w-5 text-[#7ed321]" />
                 WhatsApp us for a quote
+              </a>
+              <a
+                href={facebookHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 hover:text-[#7ed321]"
+              >
+                <FacebookIcon className="h-5 w-5 text-[#7ed321]" />
+                Follow us on Facebook
               </a>
             </div>
           </div>
