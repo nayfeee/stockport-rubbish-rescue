@@ -6,7 +6,7 @@ import Image from "next/image";
 const phoneDisplay = "07496 481951";
 const phoneHref = "tel:07496481951";
 const whatsappHref = "https://wa.me/447572230890";
-const facebookHref = "https://www.facebook.com/p/Stockport-Rubbish-Rescue";
+const facebookHref = "https://www.facebook.com/p/Stockport-Rubbish-Rescue-100084073967385/";
 
 const navItems = ["Home", "Services", "Before & After", "Areas", "Contact"];
 
@@ -175,7 +175,6 @@ export default function Home() {
   const [galleryVisible, setGalleryVisible] = useState(true);
   const [galleryPaused, setGalleryPaused] = useState(false);
   const [reviewStart, setReviewStart] = useState(0);
-  const [reviewsVisible, setReviewsVisible] = useState(true);
   const [introVisible, setIntroVisible] = useState(true);
   const [introLeaving, setIntroLeaving] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -234,13 +233,8 @@ export default function Home() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setReviewsVisible(false);
-
-      setTimeout(() => {
-        setReviewStart((current) => (current + 1) % reviews.length);
-        setReviewsVisible(true);
-      }, 350);
-    }, 4200);
+      setReviewStart((current) => (current + 1) % reviews.length);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, []);
@@ -255,8 +249,27 @@ export default function Home() {
     (_, i) => reviews[(reviewStart + i) % reviews.length]
   );
 
+  const mobileReview = reviews[reviewStart % reviews.length];
+
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#f4f6f1] text-[#071007]">
+      <style jsx global>{`
+        @keyframes review-slide-in {
+          0% {
+            opacity: 0;
+            transform: translateX(120%);
+          }
+
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .review-slide-in {
+          animation: review-slide-in 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+      `}</style>
       {introVisible && (
         <div
           className={`fixed inset-0 z-[999] flex items-center justify-center bg-[#071007] transition-all duration-700 ease-out ${
@@ -625,31 +638,54 @@ export default function Home() {
             </div>
           </div>
 
-          <div
-            className={`grid gap-4 transition-opacity duration-500 ease-out md:grid-cols-3 ${
-              reviewsVisible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {visibleReviews.map((review) => (
-              <div
-                key={`${review.name}-${review.date}`}
-                className="flex min-h-[260px] flex-col justify-between rounded-[1.5rem] bg-white p-6 shadow-sm ring-1 ring-black/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl"
-              >
+          <div className="overflow-hidden">
+            <div
+              key={`mobile-review-${reviewStart}`}
+              className="review-slide-in md:hidden"
+            >
+              <div className="flex min-h-[260px] flex-col justify-between rounded-[1.5rem] bg-white p-6 shadow-sm ring-1 ring-black/5">
                 <div>
                   <div className="mb-5 text-lg font-black tracking-[0.1em] text-[#7ed321]">
                     ★★★★★
                   </div>
                   <p className="text-base font-bold leading-7 text-black/75">
-                    “{review.quote}”
+                    “{mobileReview.quote}”
                   </p>
                 </div>
 
                 <div className="mt-8 border-t border-black/10 pt-5">
-                  <p className="font-black text-black">{review.name}</p>
-                  <p className="mt-1 text-sm font-bold text-black/45">{review.date}</p>
+                  <p className="font-black text-black">{mobileReview.name}</p>
+                  <p className="mt-1 text-sm font-bold text-black/45">{mobileReview.date}</p>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div
+              key={`desktop-reviews-${reviewStart}`}
+              className="hidden gap-4 md:grid md:grid-cols-3"
+            >
+              {visibleReviews.map((review, index) => (
+                <div
+                  key={`${review.name}-${review.date}`}
+                  className="review-slide-in flex min-h-[260px] flex-col justify-between rounded-[1.5rem] bg-white p-6 shadow-sm ring-1 ring-black/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl"
+                  style={{ animationDelay: `${index * 90}ms` }}
+                >
+                  <div>
+                    <div className="mb-5 text-lg font-black tracking-[0.1em] text-[#7ed321]">
+                      ★★★★★
+                    </div>
+                    <p className="text-base font-bold leading-7 text-black/75">
+                      “{review.quote}”
+                    </p>
+                  </div>
+
+                  <div className="mt-8 border-t border-black/10 pt-5">
+                    <p className="font-black text-black">{review.name}</p>
+                    <p className="mt-1 text-sm font-bold text-black/45">{review.date}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-[1.5rem] bg-[#071007] p-5 text-white md:flex-row md:items-center">
