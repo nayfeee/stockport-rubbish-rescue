@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const phoneDisplay = "07496 481951";
 const phoneHref = "tel:07496481951";
-const whatsappHref = "https://wa.me/447496481951";
+const whatsappHref = "https://wa.me/447916349803";
 
 const navItems = ["Home", "Services", "Before & After", "Areas", "Contact"];
 
